@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            position: relative;
+            perspective: 1000px;
+        }
+
+        .moonlight {
+            position: absolute;
+            top: 50px;
+            right: 50px;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            box-shadow: 0 0 50px 20px rgba(255, 255, 255, 0.3);
+            animation: moonGlow 4s infinite alternate;
+        }
+
+        @keyframes moonGlow {
+            0% {
+                opacity: 0.5;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 1s infinite alternate;
+        }
+
+        .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            animation: shoot 2s linear infinite;
+        }
+
+        @keyframes shoot {
+            0% {
+                transform: translateX(0) translateY(0) rotate(45deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateX(1000px) translateY(1000px) rotate(45deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes twinkle {
+            0% {
+                opacity: 0.2;
+                transform: scale(1);
+            }
+
+            100% {
+                opacity: 0.8;
+                transform: scale(1.2);
+            }
+        }
+
+        .container {
+            text-align: center;
+            padding: 3rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform-style: preserve-3d;
+            transition: transform 0.3s;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotateX(5deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotateX(-5deg);
+            }
+        }
+
+        .container:hover {
+            transform: translateZ(30px) rotateX(10deg) rotateY(10deg);
+        }
+
+        h1 {
+            color: #e94560;
+            font-size: 2.8rem;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            }
+
+            50% {
+                transform: scale(1.05);
+                text-shadow: 4px 4px 8px rgba(233, 69, 96, 0.5);
+            }
+
+            100% {
+                transform: scale(1);
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        .buttons {
+            display: flex;
+            gap: 2.5rem;
+            margin-top: 1.5rem;
+        }
+
+        button {
+            padding: 1.2rem 2.5rem;
+            font-size: 1.3rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #yesBtn {
+            background: linear-gradient(45deg, #e94560, #ff6b6b);
+            color: white;
+            box-shadow: 0 0 20px rgba(233, 69, 96, 0.3);
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 20px rgba(233, 69, 96, 0.3);
+            }
+
+            100% {
+                box-shadow: 0 0 40px rgba(233, 69, 96, 0.6);
+            }
+        }
+
+        #yesBtn:hover {
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: 0 0 40px rgba(233, 69, 96, 0.5);
+        }
+
+        #yesBtn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(45deg);
+            transition: 0.5s;
+        }
+
+        #yesBtn:hover::before {
+            left: 100%;
+        }
+
+        #noBtn {
+            background: linear-gradient(45deg, #533483, #6c4ab6);
+            color: white;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .hearts {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 2rem;
+            animation: floatHeart 2s ease-in forwards;
+            filter: drop-shadow(0 0 10px rgba(233, 69, 96, 0.5));
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(0) scale(1) rotate(0deg);
+                opacity: 1;
+            }
+
+            50% {
+                transform: translateY(-50vh) scale(1.5) rotate(180deg);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translateY(-100vh) scale(0) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .butterfly {
+            position: absolute;
+            font-size: 1.5rem;
+            animation: flutter 10s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes flutter {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            25% {
+                transform: translate(100px, -50px) rotate(20deg);
+            }
+
+            50% {
+                transform: translate(200px, 0) rotate(-20deg);
+            }
+
+            75% {
+                transform: translate(100px, 50px) rotate(20deg);
+            }
+
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+        }
+
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 1000;
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .music-control:hover {
+            transform: scale(1.2);
+        }
+
+        #confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="moonlight"></div>
+    <div class="stars"></div>
+    <div id="confetti"></div>
+    <div class="container">
+        <h1>Do you love me? 💕</h1>
+        <div class="buttons">
+            <button id="yesBtn">Yes</button>
+            <button id="noBtn">No</button>
+        </div>
+    </div>
+    <div class="hearts"></div>
+    <div class="music-control" onclick="toggleMusic()">🎵</div>
+    <audio id="bgMusic" loop>
+        <source src="" type="audio/mp3">
+    </audio>
+
+    <script>
+        function createStars() {
+            const starsContainer = document.querySelector('.stars');
+            for (let i = 0; i < 150; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = Math.random() * 3 + 'px';
+                star.style.height = star.style.width;
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 1 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function createShootingStars() {
+            setInterval(() => {
+                const star = document.createElement('div');
+                star.className = 'shooting-star';
+                star.style.left = Math.random() * window.innerWidth + 'px';
+                star.style.top = Math.random() * window.innerHeight / 2 + 'px';
+                document.querySelector('.stars').appendChild(star);
+                setTimeout(() => star.remove(), 2000);
+            }, 4000);
+        }
+
+        function createButterflies() {
+            setInterval(() => {
+                const butterfly = document.createElement('div');
+                butterfly.className = 'butterfly';
+                butterfly.innerHTML = '🦋';
+                butterfly.style.left = Math.random() * window.innerWidth + 'px';
+                butterfly.style.top = Math.random() * window.innerHeight + 'px';
+                document.body.appendChild(butterfly);
+                setTimeout(() => butterfly.remove(), 10000);
+            }, 3000);
+        }
+
+        createStars();
+        createShootingStars();
+        createButterflies();
+
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const hearts = document.querySelector('.hearts');
+        let noBtnSpeed = 1;
+        let attempts = 0;
+
+   noBtn.addEventListener('mouseover', () => {
+        attempts++;
+
+        // Get the dimensions of the screen and the button
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+        const btnWidth = noBtn.offsetWidth;
+        const btnHeight = noBtn.offsetHeight;
+
+        // Calculate the maximum and minimum positions for the button
+        const maxX = screenWidth - btnWidth > 50 * screenWidth / 100 ? 50 * screenWidth / 100 - btnWidth : screenWidth - btnWidth;
+        const maxY = screenHeight - btnHeight > 50 * screenHeight / 100 ? 50 * screenHeight / 100 - btnHeight : screenHeight - btnHeight;
+        const minX = 0;
+        const minY = 0;
+
+        // Generate random positions, ensuring they are within the screen boundaries and the specified max width/height
+        let randomX = Math.max(minX, Math.min(maxX, Math.floor(Math.random() * screenWidth)));
+        let randomY = Math.max(minY, Math.min(maxY, Math.floor(Math.random() * screenHeight)));
+
+        noBtn.style.left = `${randomX}px`;
+        noBtn.style.top = `${randomY}px`;
+        noBtn.style.transition = `all ${0.5 / Math.min(noBtnSpeed + attempts / 10, 3)}s ease`;
+        if (attempts > 5) {
+            noBtn.style.transform = `scale(${Math.max(0.5, 1 - attempts / 20)})`;
+        }
+    });
+
+        const loveMessages = [
+            "I knew you loved me! I Love You too ❤️",
+            "I knew you loved me! I Love You too ❤️",
+            "I knew you loved me! I Love You too ❤️",
+            "I knew you loved me! I Love You too ❤️",
+            "Love you to the moon and back! 💗",
+            "I knew that but you'r Like my sister! ❤️",
+            "You're the best! 💓",
+            "My heart is yours! 💘"
+        ];
+
+        function createConfetti() {
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'absolute';
+                confetti.style.width = '10px';
+                confetti.style.height = '10px';
+                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = -10 + 'px';
+                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear`;
+                document.getElementById('confetti').appendChild(confetti);
+
+                setTimeout(() => confetti.remove(), 5000);
+            }
+        }
+
+     
+
+        yesBtn.addEventListener('click', () => {
+            createHearts();
+            createConfetti();
+            const randomMessage = loveMessages[Math.floor(Math.random() * loveMessages.length)];
+            document.querySelector('h1').textContent = randomMessage;
+            document.querySelector('h1').style.fontSize = '3rem';
+            noBtn.style.display = 'none';
+            yesBtn.style.display = 'none';
+
+            // Create celebration effects
+            createFireworks();
+        });
+
+        function createHearts() {
+            const colors = ['#e94560', '#ff6b6b', '#ff8080', '#ff9999', '#ffb3b3'];
+            const emojis = ['❤️', '💖', '💕', '💗', '💓', '💘'];
+
+            for (let i = 0; i < 40; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+                    heart.className = 'heart';
+                    heart.style.left = Math.random() * window.innerWidth + 'px';
+                    heart.style.top = window.innerHeight + 'px';
+                    heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+                    heart.style.fontSize = (Math.random() * 2 + 1) + 'rem';
+                    hearts.appendChild(heart);
+
+                    setTimeout(() => heart.remove(), 2000);
+                }, i * 100);
+            }
+        }
+
+        function createFireworks() {
+            for (let i = 0; i < 25; i++) {
+                setTimeout(() => {
+                    const firework = document.createElement('div');
+                    firework.style.position = 'fixed';
+                    firework.style.left = Math.random() * window.innerWidth + 'px';
+                    firework.style.top = Math.random() * window.innerHeight + 'px';
+                    firework.style.width = '5px';
+                    firework.style.height = '5px';
+                    firework.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                    firework.style.borderRadius = '50%';
+                    firework.style.boxShadow = `0 0 10px hsl(${Math.random() * 360}, 100%, 50%)`;
+                    firework.style.opacity = 1;
+                    firework.style.transition = 'all 0.5s ease-out';
+                    document.body.appendChild(firework);
+
+                    // Animation to make the fireworks spread out and disappear
+                    setTimeout(() => {
+                        firework.style.transform = `scale(${Math.random() * 3 + 1})`;
+                        firework.style.opacity = 0;
+                        setTimeout(() => firework.remove(), 500);
+                    }, 100);
+                }, i * 100);  // Creates a delay between each firework
+            }
+        }
+
+        // Execute other necessary initializations or setup here if needed.
+    </script>
+</body>
+
+</html>
